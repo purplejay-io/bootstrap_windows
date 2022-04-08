@@ -76,19 +76,19 @@ $vscodeExtensions = @(
     "yzhang.markdown-all-in-one"
 )
 
-foreach ($ext in $vscodeExtensions) 
+try 
 {
-    try 
+    foreach ($ext in $vscodeExtensions) 
     {
         if ((code --list-extensions | Where-Object { $_ -eq "$ext" }).Count -eq 0) 
         {
             code --install-extension "$ext"
         }
     }
-    catch
-    {
-        Write-Output "Please reopen powershell and run script again"
-        Write-Ouput "Script is found here: $ROOT/run.ps1"
-    }
-    
 }
+catch 
+{
+    Write-Output "Please reopen powershell and run script again"
+    Write-Output "Script is found here: $ROOT/run.ps1"
+}
+
