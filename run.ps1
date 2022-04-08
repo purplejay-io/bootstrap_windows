@@ -1,4 +1,10 @@
-Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$PSScriptRoot/Microsoft.PowerShell_profile.ps1" -Force -Type "file"
+$ROOT = "$HOME/.pj"
+
+if (!(test-path "$ROOT")) {
+    New-Item -Path "$ROOT" -Type "dir"
+}
+
+Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$ROOT/Microsoft.PowerShell_profile.ps1" -Force -Type "file"
 
 if (!(test-path "C:\ProgramData\chocolatey\choco.exe")) {
     
@@ -14,9 +20,10 @@ if (!(Test-Path "$PROFILE")) {
     New-Item -Path "$PROFILE" -ItemType "file" -Force
 }
 
-Copy-Item -Force -Path "$PSScriptRoot/Microsoft.Powershell_profile.ps1" -Destination "$PROFILE"
+Copy-Item -Force -Path "$ROOT/Microsoft.Powershell_profile.ps1" -Destination "$PROFILE"
 
 $chocoPackages = @(
+    "git",
     "vscode", 
     "python", 
     "dotnet-sdk", 
