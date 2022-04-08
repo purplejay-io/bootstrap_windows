@@ -1,6 +1,8 @@
+Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$PSScriptRoot/Microsoft.PowerShell_profile.ps1" -Type "file"
+
 if (!(test-path "C:\ProgramData\chocolatey\choco.exe")) {
     
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 }
 
 RefreshEnv
