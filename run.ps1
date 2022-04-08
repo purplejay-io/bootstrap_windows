@@ -89,6 +89,6 @@ try
 catch 
 {
     Write-Output "Please reopen powershell and run script again"
-    Write-Output "Script is found here: $ROOT/run.ps1"
+    Write-Output "Script is found here: $ROOT/bootstrap_windows/run.ps1"
 }
 
