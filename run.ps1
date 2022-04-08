@@ -4,15 +4,6 @@ if (!(test-path "$ROOT")) {
     New-Item -Path "$ROOT" -Type "dir"
 }
 
-try 
-{
-    git clone "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
-}
-catch 
-{
-    start-process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "clone", "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
-}
-
 Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$ROOT/Microsoft.PowerShell_profile.ps1" -Force -Type "file"
 
 if (!(test-path "C:\ProgramData\chocolatey\choco.exe")) {
@@ -49,6 +40,26 @@ foreach ($pkg in $chocoPackages) {
 
 RefreshEnv
 
+if (!(Test-Path "$ROOT/bootstrap_windows")) 
+{
+    try 
+    {
+        git clone "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
+    }
+    catch 
+    {
+        start-process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "clone", "https://github.com/purplejay-io/bootstrap_windows.git", "$ROOT"
+    }
+}
+else 
+{
+    $cwd = $(pwd)
+    Set-Location "$ROOT/bootstrap_windows"
+    git pull
+    SET-Location "$cwd"
+}
+
+
 $vscodeExtensions = @(
     "ms-python.python", 
     "DotJoshJohnson.xml",
@@ -65,7 +76,8 @@ $vscodeExtensions = @(
     "yzhang.markdown-all-in-one"
 )
 
-foreach ($ext in $vscodeExtensions) {
+foreach ($ext in $vscodeExtensions) 
+{
     try 
     {
         if ((code --list-extensions | Where-Object { $_ -eq "$ext" }).Count -eq 0) 
