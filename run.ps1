@@ -44,11 +44,11 @@ if (!(Test-Path "$ROOT/bootstrap_windows"))
 {
     try 
     {
-        git clone "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
+        git clone "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT/bootstrap_windows"
     }
     catch 
     {
-        start-process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "clone", "https://github.com/purplejay-io/bootstrap_windows.git", "$ROOT"
+        start-process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "clone", "https://github.com/purplejay-io/bootstrap_windows.git", "$ROOT/bootstrap_windows"
     }
 }
 else 
