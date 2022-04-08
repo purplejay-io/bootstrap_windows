@@ -1,4 +1,4 @@
-Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$PSScriptRoot/Microsoft.PowerShell_profile.ps1" -Type "file"
+Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$PSScriptRoot/Microsoft.PowerShell_profile.ps1" -Force -Type "file"
 
 if (!(test-path "C:\ProgramData\chocolatey\choco.exe")) {
     
