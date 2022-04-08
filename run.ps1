@@ -4,6 +4,15 @@ if (!(test-path "$ROOT")) {
     New-Item -Path "$ROOT" -Type "dir"
 }
 
+try 
+{
+    git clone "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
+}
+catch 
+{
+    start-process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "clone", "https://github.com/purplejay-io/bootstrap_windows.git" "$ROOT"
+}
+
 Add-Type -AssemblyName System.Net.Http;(New-Object System.Net.Http.HttpClient).GetStringAsync('https://raw.githubusercontent.com/purplejay-io/bootstrap_windows/main/Microsoft.PowerShell_profile.ps1').GetAwaiter().GetResult() | New-Item -Path "$ROOT/Microsoft.PowerShell_profile.ps1" -Force -Type "file"
 
 if (!(test-path "C:\ProgramData\chocolatey\choco.exe")) {
@@ -57,7 +66,17 @@ $vscodeExtensions = @(
 )
 
 foreach ($ext in $vscodeExtensions) {
-    if ((code --list-extensions | Where-Object { $_ -eq "$ext" }).Count -eq 0) {
-        code --install-extension "$ext"
+    try 
+    {
+        if ((code --list-extensions | Where-Object { $_ -eq "$ext" }).Count -eq 0) 
+        {
+            code --install-extension "$ext"
+        }
     }
+    catch
+    {
+        Write-Output "Please reopen powershell and run script again"
+        Write-Ouput "Script is found here: $ROOT/run.ps1"
+    }
+    
 }
