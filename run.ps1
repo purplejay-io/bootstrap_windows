@@ -29,7 +29,9 @@ $chocoPackages = @(
     "dotnet-sdk", 
     "nvm", 
     "nodejs", 
-    "docker-desktop"
+    "docker-desktop",
+    "wireguard",
+    "jetbrainstoolbox"
 )
 
 foreach ($pkg in $chocoPackages) {
@@ -37,6 +39,9 @@ foreach ($pkg in $chocoPackages) {
         choco install -y "$pkg"
     }
 }
+
+# Install poetry
+(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
 
 RefreshEnv
 
